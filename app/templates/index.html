@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if user and user.is_authenticated %}
+    <head>
+        <title>Página Inicial</title>
+    </head>
+    <body>
+        <h1>Olá, {{ user.username }}!</h1>
+        <div>
+            <p><strong>Biografia:</strong> {{ user.bio }}</p>
+            {% if user.foto %}
+                <img src="{{ user.foto }}" alt="Foto de {{ user.username }}" style="max-width: 200px; border-radius: 50%;">
+            {% else %}
+                <p><em>Sem foto de perfil.</em></p>
+            {% endif %}
+            <div>
+                <a href="/post" class="btn">Escrever Post</a>
+            </div>
+        </div>
+        <div>
+            <h2>Posts recentes</h2>
+            {% if posts %}
+                <ul>
+                    {% for post in posts %}
+                        <li>
+                            <strong>{{post.author.username}}</strong>: {{ post.body }}
+                            <br>
+                            <small>{{ post.timestamp }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Não há posts recentes</p>
+            {% endif %}
+        </div>
+    </body>
+    {% else %}
+    <h1>Olá, deseja fazer login?</h1>
+    {% endif %}
+{% endblock %}
